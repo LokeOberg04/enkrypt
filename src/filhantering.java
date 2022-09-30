@@ -1,8 +1,10 @@
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static java.lang.Integer.parseInt;
 import static java.lang.Integer.toHexString;
 
 class Filereading {
@@ -14,20 +16,32 @@ class Filereading {
         String krypt = "";
         String dekrypt = "";
 
-
-        FileReader file = new FileReader("info.txt");
-
-        BufferedReader bufferedreader = new BufferedReader(file);
-        String line = "";
-        Scanner scanner = new Scanner(bufferedreader);
-
-        while (scanner.hasNextLine()) {
-            //System.out.println(scanner.nextLine());
-            message = message + scanner.nextLine();
+        int svar = JOptionPane.showConfirmDialog(null, "Vill du välja en egen nyckel?");
+        if (svar == 0) {
+            String ko = JOptionPane.showInputDialog("Skriv in din nyckel");
+            k = ko.charAt(0);
+            System.out.println(k);
         }
-        bufferedreader.close();
-        System.out.println(message);
 
+        int answer = JOptionPane.showConfirmDialog(null, "Vill du importera text från info.txt?");
+
+        if (answer == 0) {
+            FileReader file = new FileReader("info.txt");
+
+            BufferedReader bufferedreader = new BufferedReader(file);
+            String line = "";
+            Scanner scanner = new Scanner(bufferedreader);
+
+            while (scanner.hasNextLine()) {
+                //System.out.println(scanner.nextLine());
+                message = message + scanner.nextLine();
+            }
+            bufferedreader.close();
+            System.out.println(message);
+        }
+        if (answer == 1) {
+            message = JOptionPane.showInputDialog("Skriv din text:");
+        }
 
         for (int i = 0; i < message.length(); i++) {
             m = message.charAt(i);
