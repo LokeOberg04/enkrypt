@@ -7,11 +7,23 @@ import static java.lang.Integer.toHexString;
 
 public class Model {
 
-    String input = new String();
-    String k = "pong";
-    String krypt = new String();
+    private String message;
+    private String k;
+    private String krypt;
+    private String dekrypt;
+    public void setmessage(String message) {
+        this.message = message;
+    }
+    public void setk(String k) {
+        this.k = k;
+    }
 
-private static String keymaker(String k, String message) {
+    public String getkrypt() {
+        return krypt;
+    }
+
+
+    public String keymaker() {
     String ogkey = k;
     if (message.length() > k.length()) {
         for (int i = 0; k.length() < message.length(); i++) {
@@ -27,20 +39,20 @@ private static String keymaker(String k, String message) {
     return k;
 }
 
-    private static String encrypt(String k, String message) {
+    private String encrypt() {
         int key;
         int m;
-        String d = "";
+        String krypt = "";
         for (int i = 0; i < message.length(); i++) {
             m = message.charAt(i);
             key = k.charAt(i);
             int c = m ^ key;
-            d += toHexString(c);
+            krypt += toHexString(c);
         }
-        return d;
+        return krypt;
     }
 
-    private static String fileread(String message) throws IOException {
+    private String fileread() throws IOException {
 
         FileReader file = new FileReader("info.txt");
 
@@ -56,7 +68,7 @@ private static String keymaker(String k, String message) {
         return message;
     }
 
-    private static String decrypt(String dekrypt, String krypt) {
+    public String decrypt() {
 
         char[] Temp_Char = krypt.toCharArray();
         for(int x = 0; x < Temp_Char.length; x=x+2) {
@@ -68,8 +80,15 @@ private static String keymaker(String k, String message) {
     }
 
     public static void main(String[] args) {
-        String k = "bruh";
-        String message = "high";
-        System.out.println(keymaker(k,message));
+        String k = "¤%";
+        String message = "david";
+
+        Model kryptmodel = new Model();
+        kryptmodel.setk(k);
+        kryptmodel.setmessage(message);
+        System.out.println(kryptmodel.keymaker());
+        System.out.println(kryptmodel.encrypt());
+        kryptmodel.getkrypt();
+        System.out.println(kryptmodel.decrypt());
     }
 }
