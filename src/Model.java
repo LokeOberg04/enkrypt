@@ -1,15 +1,13 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 import static java.lang.Integer.toHexString;
 
 public class Model {
 
-    private String message;
+    private String message = "";
     private String k;
-    private String krypt;
+    private String krypt = "";
     private String dekrypt;
     public void setmessage(String message) {
         this.message = message;
@@ -39,22 +37,72 @@ public class Model {
     return k;
 }
 
-    private String encrypt() {
+    public String encrypt() {
         int key;
         int m;
-        String krypt = "";
         for (int i = 0; i < message.length(); i++) {
             m = message.charAt(i);
             key = k.charAt(i);
             int c = m ^ key;
-            krypt += toHexString(c);
+            krypt += (char) c;
         }
         return krypt;
     }
 
-    private String fileread() throws IOException {
+    public void filewriter2() {
+        String str = krypt;
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter("output.txt"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            writer.write(str);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        FileReader file = new FileReader("info.txt");
+        try {
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void filewrite() {
+        String str = krypt;
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter("output.txt", true));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            writer.append(' ');
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            writer.append(str);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String fileread() {
+
+        FileReader file = null;
+        try {
+            file = new FileReader("info.txt");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         BufferedReader bufferedreader = new BufferedReader(file);
         String line = "";
@@ -64,11 +112,16 @@ public class Model {
             //System.out.println(scanner.nextLine());
             message = message + scanner.nextLine();
         }
-        bufferedreader.close();
+        try {
+            bufferedreader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return message;
     }
 
-    public String decrypt() {
+
+    public String HexToString() {
 
         char[] Temp_Char = krypt.toCharArray();
         for(int x = 0; x < Temp_Char.length; x=x+2) {
@@ -80,15 +133,17 @@ public class Model {
     }
 
     public static void main(String[] args) {
+
         String k = "¤%";
         String message = "david";
 
         Model kryptmodel = new Model();
+            message = kryptmodel.fileread();
         kryptmodel.setk(k);
         kryptmodel.setmessage(message);
         System.out.println(kryptmodel.keymaker());
         System.out.println(kryptmodel.encrypt());
         kryptmodel.getkrypt();
-        System.out.println(kryptmodel.decrypt());
+        kryptmodel.filewriter2();
     }
 }
