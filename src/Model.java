@@ -6,9 +6,9 @@ import static java.lang.Integer.toHexString;
 public class Model {
 
     private String message = "";
-    private String k;
+    private String k = "";
     private String krypt = "";
-    private String dekrypt;
+    private String dekrypt = "";
     public void setmessage(String message) {
         this.message = message;
     }
