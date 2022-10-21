@@ -1,7 +1,7 @@
+package enkrypt;
+
 import java.io.*;
 import java.util.Scanner;
-
-import static java.lang.Integer.toHexString;
 
 public class Model {
 
@@ -18,6 +18,16 @@ public class Model {
 
     public String getkrypt() {
         return krypt;
+    }
+
+
+    public String getkey() {
+        return k;
+    }
+
+
+    public String getmessage() {
+        return message;
     }
 
 
@@ -118,6 +128,30 @@ public class Model {
             throw new RuntimeException(e);
         }
         return message;
+    }
+    public String keyread() {
+
+        FileReader file = null;
+        try {
+            file = new FileReader("key.txt");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        BufferedReader bufferedreader = new BufferedReader(file);
+        String line = "";
+        Scanner scanner = new Scanner(bufferedreader);
+
+        while (scanner.hasNextLine()) {
+            //System.out.println(scanner.nextLine());
+            k = k + scanner.nextLine();
+        }
+        try {
+            bufferedreader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return k;
     }
 
 
